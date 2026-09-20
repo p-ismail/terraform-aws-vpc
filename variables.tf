@@ -60,25 +60,25 @@ variable "database_subnet_tags" {
 
 variable "public_route_table_tags" {
     type = map
-    default = ""
+    default = {}
 }
 
 variable "private_route_table_tags" {
     type = map
-    default = ""
+    default = {}
 }
 
 variable "databse_route_table_tags" {
     type = map
-    default = ""
+    default = {}
 }
 
 variable "eip_tags" {
      type = map
-    default = ""  
+    default = {} 
 }
 
 variable "nat_gateway_tags" {
     type = map
-    default = ""
+    default = {}
 }
