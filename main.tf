@@ -17,9 +17,17 @@ resource "aws_subnet" "public_subnets" {
   count = length(var.public_sunets_cidrs)
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_sunets_cidrs[count.index]
+  availability_zone = local.avzns_names[count.index]
+  map_public_ip_on_launch = true
 
-  tags = {
-    Name = "Main"
+  tags = merge(
+    local.common_tags,
+    #roboshop-dev-public-us-east-1a
+    {
+      Name = "${var.project}-${var.environment}-public- ${local.avzns_names[count.index]}"
+    },
+    var.public_subnet_tags
+  )
   }
-}
+
 
