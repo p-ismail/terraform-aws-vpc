@@ -22,4 +22,6 @@ locals {
   )
 
   avzns_names = slice(data.aws_availability_zones.available.names, 0, 2)
+
+# here we will get us-east-1a and us-east-1b from the data.tf
 }
