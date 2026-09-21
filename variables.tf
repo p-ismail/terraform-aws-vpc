@@ -25,7 +25,7 @@ variable "igw_tags" {
     default = {} 
 }
 
-variable "public_sunets_cidrs" {
+variable "public_subnets_cidrs" {
     type = list
     default = ["10.0.1.0/24" , "10.0.2.0/24"]
 }
@@ -36,7 +36,7 @@ variable "public_subnet_tags" {
   
 }
 
-variable "private_sunets_cidrs" {
+variable "private_subnets_cidrs" {
     type = list
     default = ["10.0.11.0/24" , "10.0.12.0/24"]
 }
@@ -47,7 +47,7 @@ variable "private_subnet_tags" {
   
 }
 
-variable "database_sunets_cidrs" {
+variable "database_subnets_cidrs" {
     type = list
     default = ["10.0.21.0/24" , "10.0.22.0/24"]
 }
@@ -81,4 +81,9 @@ variable "eip_tags" {
 variable "nat_gateway_tags" {
     type = map
     default = {}
+}
+
+variable "is_peering_required" {
+    type = bool
+    default = false
 }
