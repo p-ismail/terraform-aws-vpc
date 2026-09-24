@@ -13,7 +13,7 @@ resource "aws_internet_gateway" "main" {
 }
 
 #creating public subnets
-resource "aws_subnet" "public_subnets" {
+resource "aws_subnet" "public" {
   count = length(var.public_subnets_cidrs)
   vpc_id     = aws_vpc.main.id
   cidr_block = var.public_subnets_cidrs[count.index]
@@ -31,7 +31,7 @@ resource "aws_subnet" "public_subnets" {
   }
 
 #creating private subnets
-resource "aws_subnet" "private_subnets" {
+resource "aws_subnet" "private" {
   count = length(var.private_subnets_cidrs)
   vpc_id     = aws_vpc.main.id
   cidr_block = var.private_subnets_cidrs[count.index]
@@ -48,7 +48,7 @@ resource "aws_subnet" "private_subnets" {
   }
 
 #creating database subnets
-resource "aws_subnet" "database_subnets" {
+resource "aws_subnet" "database" {
   count = length(var.database_subnets_cidrs)
   vpc_id     = aws_vpc.main.id
   cidr_block = var.database_subnets_cidrs[count.index]
@@ -134,7 +134,7 @@ resource "aws_eip" "nat" {
 
 resource "aws_nat_gateway" "main" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_subnets[0].id
+  subnet_id     = aws_subnet.public[0].id
   #creating nat gateway in public subnet in only one zone us-east-1
 
   tags = merge(
@@ -168,19 +168,19 @@ resource "aws_route" "database" {
 #associating the route tables with the subnets
 resource "aws_route_table_association" "public" {
   count = length(var.public_subnets_cidrs)
-  subnet_id      = aws_subnet.public.id[count.index]
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
 
 resource "aws_route_table_association" "private" {
   count = length(var.private_subnets_cidrs)
-  subnet_id      = aws_subnet.private.id[count.index]
+  subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id
 }
 
 resource "aws_route_table_association" "database" {
   count = length(var.database_subnets_cidrs)
-  subnet_id      = aws_subnet.database.id[count.index]
+  subnet_id      = aws_subnet.database[count.index].id
   route_table_id = aws_route_table.database.id
 }
 
